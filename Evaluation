@@ -1,0 +1,20 @@
+import pandas as pd
+from rdkit import Chem
+
+# Load the CSV file containing the generated SMILES strings
+df = pd.read_csv(file_path)
+
+# Assuming the column containing SMILES strings is named 'smiles'
+smiles_list = df['SMILES']
+
+# Calculate the validity of SMILES strings
+valid_smiles = 0
+total_smiles = len(smiles_list)
+for smiles in smiles_list:
+    mol = Chem.MolFromSmiles(smiles)
+    if mol is not None:
+        valid_smiles += 1
+
+# Calculate validity ratio
+validity_ratio = valid_smiles / total_smiles
+print("Validity Ratio:", validity_ratio)
