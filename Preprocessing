@@ -1,0 +1,90 @@
+#!/usr/bin/env python
+# coding: utf-8
+
+# In[62]:
+
+
+import os
+import time
+
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+
+import torch
+import torch.nn as nn
+from torch.utils.data import TensorDataset, DataLoader
+
+from tqdm import tqdm_notebook
+from sklearn.preprocessing import MinMaxScaler
+import pandas as pd
+
+# Read the CSV file into a Pandas DataFrame
+# Load your dataset
+DF = pd.read_csv()
+
+# Define Smiles_list as a list of SMILES strings extracted from the DataFrame
+Smiles_list = df['Smiles'].tolist()
+
+# Find the maximum length of SMILES strings
+max_length = max(len(smiles) for smiles in Smiles_list)
+
+# Print the maximum length
+print("Maximum length of SMILES strings:", max_length)
+
+
+# Assuming the SMILES strings are in a column named 'smiles' in your dataset
+raw_text = "\n".join(DF['Smiles'].str.strip())
+
+# Creating mapping for each character to integer
+unique_chars = sorted(list(set(raw_text)))
+
+# Maps each unique character as an int
+char_to_int = dict((c, i) for i, c in enumerate(unique_chars))
+# Manually updates \n
+char_to_int.update({-1: "\n"})
+
+# Int to char dictionary
+int_to_char = dict((i, c) for i, c in enumerate(unique_chars))
+int_to_char.update({"\\n": -1})
+
+
+# how many unique characters
+mapping_size = len(char_to_int)
+reverse_mapping_size = len(int_to_char)
+
+print("Size of the character to integer dictionary is:", mapping_size)
+print("Size of the integer to character dictionary is:", reverse_mapping_size)
+
+import pandas as pd
+import numpy as np
+from keras.utils import to_categorical
+
+
+# Calculate average sequence length from the dataset
+avg_seq_length = sum(len(smiles) for smiles in DF['Smiles']) // len(DF)
+print("Average sequence length in the dataset is:", avg_seq_length)
+
+# Define sequence length
+seq_length = avg_seq_length
+
+# Preparing datasets by matching the dataset lengths
+dataX = []
+dataY = []
+
+for i in range(0, n_chars - seq_length, 1):
+    seq_in = raw_text[i:i + seq_length]
+    seq_out = raw_text[i + seq_length]
+    dataX.append([char_to_int[char] for char in seq_in])
+    dataY.append(char_to_int[seq_out])
+
+n_patterns = len(dataX)
+print("Total number of patterns (sequences) is:", n_patterns)
+
+# Reshape X to be [samples, time steps, features]
+X = np.reshape(dataX, (n_patterns, seq_length, 1))
+# Normalize data
+X = X / float(n_vocab)
+
+# One-hot encode the output variable
+y = to_categorical(dataY)
