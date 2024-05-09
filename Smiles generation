@@ -1,0 +1,70 @@
+import numpy as np
+
+# Placeholder for is_valid_smiles function
+def is_valid_smiles(smiles):
+    # Add your logic to check if the SMILES string is valid
+    # For simplicity, let's assume all generated strings are valid
+    return True
+
+# Function to generate SMILES strings using the fine-tuned model
+def generate_smiles(model, seed_length, num_chars, temperature=0.8, num_samples=1):
+    generated_smiles_list = []
+    
+    for _ in range(num_samples):
+        # Generate a random seed sequence
+        start = np.random.randint(0, len(X) - 1)
+        pattern = X[start]
+
+        generated_smiles = ""
+        print("Seed:")
+        print("\"", ''.join([int_to_char[int(value * n_vocab)] for value in pattern]), "\"", end='')
+
+        for i in range(num_chars):
+            x = np.reshape(pattern, (1, len(pattern), 1))
+            x = x / float(n_vocab)
+
+            # Predict the next character
+            prediction = model.predict(x, verbose=0).squeeze()
+
+            # Adjust the prediction using the temperature parameter
+            prediction = np.log(prediction) / temperature
+            exp_preds = np.exp(prediction)
+            prediction = exp_preds / np.sum(exp_preds)
+
+            # Ensure diversity in predictions
+            index = np.random.choice(range(len(prediction)), p=prediction)
+
+            # Ensure that the index is within the valid range
+            index = min(index, n_vocab - 1)
+
+            result = int_to_char[index]
+
+            # Update the pattern with the new character
+            pattern = np.append(pattern, index)
+            pattern = pattern[1:len(pattern)]
+
+            # Check if the generated sequence is valid
+            if is_valid_smiles(generated_smiles + result):
+                print(result, end='')
+                generated_smiles += result
+            else:
+                # If an invalid SMILES is generated, replace it with a valid character
+                valid_chars = [char for char in unique_chars if is_valid_smiles(generated_smiles + char)]
+                if valid_chars:
+                    valid_char = np.random.choice(valid_chars)
+                    print(f" (Invalid SMILES. Replacing with: {valid_char})", end='')
+                    generated_smiles += valid_char
+                    pattern[-1] = char_to_int[valid_char]
+
+        print("")  # Print a new line after each generated SMILES
+        generated_smiles_list.append(generated_smiles)
+
+    return generated_smiles_list
+
+# Use the generate_smiles function with the fine-tuned model
+generated_smiles_list = generate_smiles(fine_tuned_model, seed_length=100, num_chars=500, temperature=0.8, num_samples=500)
+
+# Print the generated SMILES strings
+print("Generated SMILES:")
+for smiles in generated_smiles_list:
+    print(smiles)
