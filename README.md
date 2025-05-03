@@ -4,7 +4,7 @@ ii.	Training a model
 iii.	Fine-tuning a model 
 Using the code
 Sampling from a pre-trained model
-In this repository, one pre-trained model was provided that you can use for sampling (stored in the model). This model was trained on 55,310 bioactive molecules from the ChEMBL database for 30 epochs.
+In this repository, one pre-trained model was provided that you can use for sampling (stored in the model). This model was trained on 55,308 bioactive molecules from the ChEMBL database for 40 epochs.
 Parameters:
 •	experiment_name (str): name of the experiment with the pre-trained model you want to sample from (you can find a pre-trained model in the model)
 •	stor_dir (str): directory where the models are stored. The sampled SMILES will also be saved there (if write_csv=True)
