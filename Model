@@ -6,7 +6,7 @@ from keras.optimizers import Adam
 from keras.callbacks import EarlyStopping
 from rdkit import Chem
 
-# Function to create the LSTM model
+# Function to create the AB-LSTM model
 def create_lstm_model(input_shape, output_shape, learning_rate=0.001):
     model = Sequential()
     model.add(LSTM(256, input_shape=input_shape, return_sequences=True))
@@ -21,7 +21,7 @@ def create_lstm_model(input_shape, output_shape, learning_rate=0.001):
     model.compile(loss='categorical_crossentropy', optimizer=optimizer)
     return model
 
-# Function to train the LSTM model
+# Function to train the AB-LSTM model
 def train_lstm_model(model, X, y, epochs, batch_size):
     early_stopping = EarlyStopping(monitor='loss', patience=15, restore_best_weights=True)
     history = model.fit(X, y, epochs=epochs, batch_size=batch_size, callbacks=[early_stopping])
