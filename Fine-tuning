@@ -9,7 +9,7 @@ from tensorflow.keras.preprocessing.sequence import pad_sequences
 from tensorflow.keras.utils import to_categorical
 
 # Load the pre-trained model
-pretrained_model = load_model("fivelayers_LSTM")
+pretrained_model = load_model("ABlayers_LSTM")
 
 
 import numpy as np
@@ -78,7 +78,7 @@ from keras.optimizers import Adam
 from keras.callbacks import ModelCheckpoint
 
 # Load the pre-trained model
-pretrained_model = load_model("fivelayers_LSTM")
+pretrained_model = load_model("ABlayers_LSTM")
 
 # Freeze the layers of the pre-trained model
 for layer in pretrained_model.layers:
@@ -95,7 +95,7 @@ fine_tuned_model.compile(optimizer=Adam(), loss='categorical_crossentropy', metr
 
 # Train the fine-tuned model
 checkpoint = ModelCheckpoint("fivelayers_LSTM_finetuned", save_best_only=True)
-fine_tuned_model.fit(X, y, epochs=25, batch_size=128, callbacks=[checkpoint])
+fine_tuned_model.fit(X, y, epochs=40, batch_size=64, callbacks=[checkpoint])
 
 # Save the fine-tuned model
 fine_tuned_model.save("fivelayers_LSTM_finetuned")
