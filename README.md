@@ -73,7 +73,6 @@ Repository Structure
 ├── Model/                 # Pre-trained and trained model files
 ├── Smiles generation/     # Generated SMILES and sampling scripts
 ├── Table S1.xlsx          # Input dataset
-├── Table1_jcim.xlsx       # Supplementary dataset
 ├── gtp.ipynb              # GTP-specific notebook
 ├── idc_model.ipynb        # IDC-specific notebook
 ├── requirements.txt       # Dependency configuration file
