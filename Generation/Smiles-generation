@@ -51,7 +51,7 @@ def generate_smiles(model, seed_length, num_chars, temperature=0.8, num_samples=
     for _ in range(num_samples):
         # Generate a random seed sequence
         start = np.random.randint(0, len(X) - 1)
-        pattern = X[start]
+        pattern = X[start][:seed_length]
 
         generated_smiles = ""
         print("Seed:")
