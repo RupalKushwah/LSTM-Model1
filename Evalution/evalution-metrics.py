@@ -95,11 +95,25 @@ def calculate_uniqueness(smiles_list):
 
     return uniqueness_percentage, unique_smiles
 
-# Novelty: % of generated SMILES not in training
 def calculate_novelty(generated_smiles, training_smiles):
+
     training_set = set(training_smiles)
-    novelty_count = sum(1 for smiles in generated_smiles if smiles not in training_set)
-    novelty_percentage = novelty_count / len(generated_smiles) * 100
+
+    if len(generated_smiles)==0:
+        return 0
+
+    novelty_count = sum(
+
+        1
+        for smiles in generated_smiles
+        if smiles not in training_set
+    )
+
+    novelty_percentage = (
+        novelty_count /
+        len(generated_smiles)
+    )*100
+
     return novelty_percentage
 
 # Internal diversity using 1 - Tanimoto similarity
