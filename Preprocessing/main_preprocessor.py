@@ -11,25 +11,37 @@ import torch.nn as nn
 from torch.utils.data import TensorDataset, DataLoader
 from tqdm import tqdm_notebook
 from sklearn.preprocessing import MinMaxScaler
-import pandas as pd
 from keras.utils import to_categorical
 
 # Read the CSV file 
 # Load your dataset
-DF = pd.read_csv(r"C:\Users\HI\Desktop\AB_LSTM_SUBMISSION\antibacterial\LSTM_MODEL\ANTIBACTERIAL_DATA.csv")
+DF = pd.read_excel(
+"dataset/Table S1.xlsx"
+)
+
+smiles_column="Training_SMILES"
 
 # Remove missing values
-DF = DF.dropna(subset=['SMILES'])
+DF=DF.dropna(
+subset=[smiles_column]
+)
 
 # Extract SMILES
-Smiles_list = DF['SMILES'].astype(str).tolist()
+Smiles_list = DF[
+    smiles_column
+].astype(str).tolist()
 
+raw_text = "\n".join(
+    DF[
+        smiles_column
+    ].astype(str).str.strip()
+)
 # Maximum length
 max_length = max(len(smiles) for smiles in Smiles_list)
 print("Maximum length of SMILES strings:", max_length)
 
 # Convert SMILES into text
-raw_text = "\n".join(DF['SMILES'].str.strip())
+raw_text = "\n".join(DF['smiles_column'].str.strip())
 
 # Character mapping
 unique_chars = sorted(list(set(raw_text)))
