@@ -57,3 +57,52 @@ Authors
 •	Sapna Nikam (https://github.com/sapnanik/LSTM-Model)
 •	Rupal Kushwah (https://github.com/RupalKushwah/LSTM-Model1/tree/main)
 
+Installation
+
+The required dependencies can be installed using:
+
+pip install -r requirements.txt
+
+
+Repository Structure
+
+├── Preprocessing/         # Data preprocessing scripts
+├── Environment/           # Environment configuration files
+├── Evaluation/            # Model evaluation and analysis
+├── Fine-tuning/           # Fine-tuning scripts for GTP and IDC models
+├── Model/                 # Pre-trained and trained model files
+├── Smiles generation/     # Generated SMILES and sampling scripts
+├── Table S1.xlsx          # Input dataset
+├── Table1_jcim.xlsx       # Supplementary dataset
+├── gtp.ipynb              # GTP-specific notebook
+├── idc_model.ipynb        # IDC-specific notebook
+├── requirements.txt       # Dependency configuration file
+├── README.md              # Documentation
+
+
+Example Workflow
+
+Step 1: Data preprocessing
+
+python Preprocessing/main_preprocessor.py
+
+Step 2: Load the pre-trained AB-LSTM model
+
+Use the available model files within the Model directory.
+
+Step 3: Fine-tuning for site-specific generation
+
+Use scripts available in Fine-tuning/ for generating:
+
+• FtsZ-LSTM-GTP
+• FtsZ-LSTM-IDC
+
+Step 4: Generate molecular SMILES
+
+Use scripts within Smiles generation/
+
+Step 5: Evaluate generated molecules
+
+Use scripts available in Evaluation/
+
+
