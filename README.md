@@ -115,7 +115,7 @@ python Preprocessing/main_preprocessor.py
 
 Step 2: Train the AB-LSTM model
 
-Use scripts in MODEL/AB-LSTM
+Use scripts in MODEL/AB-LSTM.py
 
 Step 3: Fine-tuning for site-specific generation
 
