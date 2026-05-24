@@ -63,20 +63,40 @@ The required dependencies can be installed using:
 
 pip install -r requirements.txt
 
+Alternatively, a Conda environment can be created using:
+
+conda env create -f Environment/environment.yml
+
+Activate the environment:
+
+conda activate environment
 
 Repository Structure
 
-├── Preprocessing/         # Data preprocessing scripts
-├── Environment/           # Environment configuration files
-├── Evaluation/            # Model evaluation and analysis
-├── Fine-tuning/           # Fine-tuning scripts for GTP and IDC models
-├── Model/                 # Pre-trained and trained model files
-├── Smiles generation/     # Generated SMILES and sampling scripts
-├── Table S1.xlsx          # Input dataset
-├── gtp.ipynb              # GTP-specific notebook
-├── idc_model.ipynb        # IDC-specific notebook
-├── requirements.txt       # Dependency configuration file
-├── README.md              # Documentation
+├── Preprocessing/              # Data preprocessing scripts
+│   └── main_preprocessor.py
+│
+├── Transfer-learning/          # Fine-tuning and transfer learning scripts
+│   └── Fine-tuning.py
+│
+├── Generation/                 # Molecular generation scripts
+│   └── Smiles-generation/
+│
+├── Evaluation/                 # Evaluation scripts and metrics
+│   └── evaluation-metrics
+│
+├── MODEL/                      # Pre-trained and fine-tuned models
+│   └── AB-LSTM
+│
+├── Environment/                # Environment configuration
+│
+├── dataset/                    # Input datasets
+│   └── Table S1.xlsx
+│
+├── gtp.ipynb                   # GTP-specific notebook
+├── idc_model.ipynb             # IDC-specific notebook
+├── requirements.txt            # Dependency configuration
+├── README.md                   # Documentation
 
 
 Example Workflow
@@ -85,23 +105,24 @@ Step 1: Data preprocessing
 
 python Preprocessing/main_preprocessor.py
 
-Step 2: Load the pre-trained AB-LSTM model
+Step 2: Train the AB-LSTM model
 
-Use the available model files within the Model directory.
+Use scripts in MODEL/AB-LSTM
 
 Step 3: Fine-tuning for site-specific generation
 
-Use scripts available in Fine-tuning/ for generating:
+python Transfer-learning/Fine-tuning.py
+
+This generates:
 
 • FtsZ-LSTM-GTP
 • FtsZ-LSTM-IDC
 
 Step 4: Generate molecular SMILES
 
-Use scripts within Smiles generation/
+python Generation/Smiles-generation.py
 
 Step 5: Evaluate generated molecules
 
-Use scripts available in Evaluation/
-
+python Evaluation/evaluation-metrics.py
 
