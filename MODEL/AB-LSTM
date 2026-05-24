@@ -1,10 +1,9 @@
 import numpy as np
 from keras.utils import to_categorical
-from keras.models import Sequential, load_model
+from keras.models import Sequential
 from keras.layers import LSTM, Dense
 from keras.optimizers import Adam
 from keras.callbacks import EarlyStopping
-from rdkit import Chem
 
 # Function to create the AB-LSTM model
 def create_lstm_model(input_shape, output_shape, learning_rate=0.001):
@@ -48,10 +47,12 @@ def train_lstm_model(model, X, y, epochs, batch_size):
         history.history['loss']
     )
 
-    model.save(
-        "ABlayers_LSTM.keras"
-    )
+  model.save(
+    "ABlayers_LSTM.keras"
+)
 
-    print(
-        "Model saved successfully"
-    )
+print(
+    "Model saved successfully"
+)
+
+return history
