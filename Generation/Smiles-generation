@@ -1,13 +1,51 @@
 import numpy as np
+import pandas as pd
+from rdkit import Chem
+from tensorflow.keras.models import load_model
 
-# Placeholder for is_valid_smiles function
+# Load fine-tuned models
+
+fine_tuned_model = load_model(
+"FtsZ-LSTM-models"
+)
+
+# Load preprocessing variables
+
+X=np.load(
+"X.npy"
+)
+
+char_to_int=np.load(
+"char_to_int.npy",
+allow_pickle=True
+).item()
+
+int_to_char=np.load(
+"int_to_char.npy",
+allow_pickle=True
+).item()
+
+unique_chars=list(
+char_to_int.keys()
+)
+
+n_vocab=len(
+unique_chars
+)
+
+# Validate generated SMILES using RDKit
+
 def is_valid_smiles(smiles):
-    # Add your logic to check if the SMILES string is valid
-    # For simplicity, let's assume all generated strings are valid
-    return True
+
+    mol = Chem.MolFromSmiles(
+    smiles
+    )
+
+    return mol is not None
 
 # Function to generate SMILES strings using the fine-tuned model
 def generate_smiles(model, seed_length, num_chars, temperature=0.8, num_samples=1):
+
     generated_smiles_list = []
     
     for _ in range(num_samples):
@@ -27,7 +65,7 @@ def generate_smiles(model, seed_length, num_chars, temperature=0.8, num_samples=
             prediction = model.predict(x, verbose=0).squeeze()
 
             # Adjust the prediction using the temperature parameter
-            prediction = np.log(prediction) / temperature
+            prediction = np.log(prediction+1e-10) / temperature
             exp_preds = np.exp(prediction)
             prediction = exp_preds / np.sum(exp_preds)
 
@@ -61,10 +99,21 @@ def generate_smiles(model, seed_length, num_chars, temperature=0.8, num_samples=
 
     return generated_smiles_list
 
-# Use the generate_smiles function with the fine-tuned model
+# # Use the generate_smiles function with the fine-tuned model
 generated_smiles_list = generate_smiles(fine_tuned_model, seed_length=100, num_chars=500, temperature=0.8, num_samples=500)
 
 # Print the generated SMILES strings
 print("Generated SMILES:")
+
 for smiles in generated_smiles_list:
     print(smiles)
+
+generated_df = pd.DataFrame(
+generated_smiles_list,
+columns=["SMILES"]
+)
+
+generated_df.to_csv(
+"generated_smiles.csv",
+index=False
+)
