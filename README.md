@@ -32,38 +32,47 @@ preprocess_data(filename_in='../Training data, model_type='AB-LSTM')
 Parameters:
 •	filename_in (str): name of the file containing the SMILES strings (.csv)
 •	model_type (str): name of the chosen generative method
+
 Training Parameters
-Section	Parameter	Description	Comments
-Model	model	Type	Backpropagation through time
-	hidden_units	Number of hidden units	Suggested value: 256 for backward RNN, 
-Data	data	Name of the data file	It has to be located in the data/
-	encoding_size	Number of different SMILES tokens	44
-	molecular_size	Length of string with padding	121
-Training	epochs	Number of epochs	Suggested value: 40
-	learning_rate	Learning rate	Suggested value: 0.001
-	batch_size	Batch size	Suggested value: 1024
-Evaluation	samples	Number of generated SMILES after each epoch	
-	temp	Sampling temperature	Suggested value: 0.8
+Section        Parameter           Description                      Comments
+
+Model          model              Type                             Backpropagation through time
+               hidden_units       Number of hidden units           Suggested value: 256
+
+Data           data               Dataset file                     Located in dataset/
+               encoding_size      Number of SMILES tokens          44
+               molecular_size     Molecular sequence length        121
+
+Training       epochs             Number of epochs                Suggested value: 40
+               learning_rate      Learning rate                   Suggested value: 0.001
+               batch_size         Batch size                      Suggested value: 1024
+
+Evaluation     samples            Generated molecules per epoch
+               temp               Sampling temperature            Suggested value: 0.
 
 Fine-tuning a model
 Fine-tuning requires both a pre-trained model and an associated parameter file.
+
 This process was independently conducted for:
 (i) the GTP binding site 
 (ii) the inter-domain cleft (IDC) of the SaFtsZ protein.
 
 As a result, two specialized models were generated: (i) FtsZ-LSTM-GTP and (ii) FtsZ-LSTM-IDC.
 You can start the sampling procedure with _fine_tuning.py
-Section	Parameter	Description	Comments
-Model	model	Type(LSTM, GRU, BiLSTM)	BPTT
-	hidden_units	Number of hidden units	Suggested value: 256
-Data	data	Name of the data file	Has to be located in the data/
-	encoding_size	Number of different SMILES tokens	55
-	molecular_size	Length of string with padding	121
-Training	epochs	Number of epochs	Suggested value: 40
-	learning_rate	Learning rate	Suggested value: 0.001
-	batch_size	Batch size	Suggested value: 64
 
-	temp	Sampling temperature	Suggested value: 0.8
+Section        Parameter           Description                      Comments
+
+Model          model              Type                              BPTT
+               hidden_units       Number of hidden units           Suggested value: 256
+
+Data           data               Dataset file                     Located in dataset/
+               encoding_size      Number of SMILES tokens          55
+               molecular_size     Molecular sequence length        121
+
+Training       epochs             Number of epochs                Suggested value: 40
+               learning_rate      Learning rate                   Suggested value: 0.001
+               batch_size         Batch size                      Suggested value: 64
+               temp               Sampling temperature            Suggested value: 0.8
 
 Authors
 •	Sapna Nikam (https://github.com/sapnanik/LSTM-Model)
@@ -81,31 +90,31 @@ conda env create -f Environment/environment.yml
 
 Repository Structure
 
-├── Preprocessing/              
+├── Preprocessing/
 │   └── main_preprocessor.py
 │
-├── Transfer-learning/        
+├── Transfer-learning/
 │   └── Fine-tuning.py
 │
-├── Generation/              
-│   └── Smiles-generation/
+├── Generation/
+│   └── Smiles-generation.py
 │
-├── Evaluation/                
-│   └── evaluation-metrics
+├── Evaluation/
+│   └── evaluation-metrics.py
 │
-├── MODEL/                     
-│   └── AB-LSTM
+├── MODEL/
+│   └── AB-LSTM.py
 │
-├── Environment/               
+├── Environment/
+│   └── environment.yml
 │
-├── dataset/                    # Input datasets
+├── dataset/
 │   └── Table S1.xlsx
 │
-├── gtp.ipynb                   # GTP-specific notebook
-├── idc_model.ipynb             # IDC-specific notebook
-├── requirements.txt            # Dependency configuration
-├── README.md                   # Documentation
-
+├── gtp.ipynb
+├── idc_model.ipynb
+├── requirements.txt
+├── README.md
 
 Example Workflow
 
