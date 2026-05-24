@@ -11,23 +11,32 @@ from tensorflow.keras.utils import to_categorical
 from rdkit import Chem
 
 # Load the pre-trained model
-pretrained_model = load_model("ABlayers_LSTM")
+pretrained_model = load_model("ABlayers_LSTM.keras")
 
 dataset_type = "GTP"
-# Change to "IDC" when required
- 
 if dataset_type=="GTP":
 
-    # Load your fine-tuning dataset
-    small_df = pd.read_csv(
-    r"C:\Users\HI\Desktop\AB_LSTM_SUBMISSION\antibacterial\LSTM_MODEL\GTP_finetuning.csv"
+    small_df = pd.read_excel(
+    "dataset/Table S1.xlsx"
     )
+
+    smiles_column="SMILES of FtsZ GTP inhibitors"
 
 elif dataset_type=="IDC":
 
     small_df = pd.read_excel(
-    r"C:\Users\HI\Desktop\AB_LSTM_SUBMISSION\antibacterial\ftsz_docprojcts\models\IDC_SMILES.xlsx"
+    "dataset/Table S1.xlsx"
     )
+
+    smiles_column="SMILES of FtsZ IDC inhibitors"
+
+small_df=small_df.dropna(
+subset=[smiles_column]
+)
+
+small_df['SMILES']=small_df[
+smiles_column
+]
 # Remove missing values
 small_df = small_df.dropna(subset=['SMILES'])
 
@@ -89,7 +98,12 @@ for layer in pretrained_model.layers:
 
 # Add new layers for fine-tuning
 fine_tuned_model = Sequential()
-fine_tuned_model.add(LSTM(256, input_shape=(seq_length, 1), return_sequences=True))
+for layer in pretrained_model.layers:
+
+    fine_tuned_model.add(
+    layer
+    )
+fine_tuned_model.add(LSTM(256, return_sequences=True))
 fine_tuned_model.add(LSTM(256))
 fine_tuned_model.add(Dense(n_vocab, activation='softmax'))
 
